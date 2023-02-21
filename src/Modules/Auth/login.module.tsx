@@ -1,7 +1,16 @@
+import { useMutation } from "react-query";
 import { FormInterface } from "../../Composites/DashboardWrapper/FormBuilder/Types/form.types";
 import FormBuilder from "../../Composites/DashboardWrapper/FormBuilder/formBuilder";
+import axios from "axios";
+import { BASE_URL } from "../../Constants/api.constant";
 
 const Login = () => {
+	const { isError, isSuccess, isLoading, mutate, data } = useMutation(
+		(loginData) => {
+			return axios.post(`${BASE_URL}/api/auth/login`, loginData);
+		}
+	);
+	console.log(data);
 	const formSchema: FormInterface = {
 		fields: [
 			{
@@ -17,6 +26,7 @@ const Login = () => {
 				isRequired: true,
 			},
 		],
+		handleSubmit: (values: any) => mutate(values),
 	};
 	return (
 		<div className="flex items-center justify-center h-screen w-screen">
