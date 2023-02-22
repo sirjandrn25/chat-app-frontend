@@ -1,5 +1,8 @@
+import { BASE_URL } from "./../Constants/api.constant";
+import axios from "axios";
 import { EmptyFunction } from "./common.utils";
 import { GetLocalState, SetLocalState } from "./localState.utils";
+
 const user_session_key = "user_session";
 
 export const logOutHandler = () => {};
@@ -24,7 +27,7 @@ export const getSessionToken = () => {
 	try {
 		const { data = {}, success }: any = GetLocalState(user_session_key);
 
-		return data.token;
+		return data;
 	} catch (err) {
 		console.log("sesssion token error ", err);
 		return undefined;
@@ -59,7 +62,7 @@ export class AuthUser {
 	static getLoggedDetail() {
 		// get user information
 		const store_info = getSessionToken();
-		return store_info?.user;
+		return store_info;
 	}
 	static isLoggin() {
 		try {
@@ -70,3 +73,25 @@ export class AuthUser {
 		}
 	}
 }
+
+export const fetchUserProfile = async () => {
+	const { access_token } = AuthUser.getLoggedDetail() || {};
+	const config = {
+		Authorization: `Bearer ${access_token}`,
+	};
+	return axios({
+		url: `${BASE_URL}/users/profile/me`,
+		headers: {
+			...config,
+		},
+		method: "GET",
+	});
+};
+export const sendRefreshTokenRequest = async () => {
+	const { refresh_token } = AuthUser.getLoggedDetail() || {};
+	return axios({
+		url: `${BASE_URL}/auth/refresh_token`,
+		method: "post",
+		data: { token: refresh_token },
+	});
+};
