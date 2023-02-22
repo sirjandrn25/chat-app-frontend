@@ -1,5 +1,5 @@
-import { FormInterface } from "../../Composites/DashboardWrapper/FormBuilder/Types/form.types";
-import FormBuilder from "../../Composites/DashboardWrapper/FormBuilder/formBuilder";
+import { FormInterface } from "../../Composites/FormBuilder/Types/form.types";
+import FormBuilder from "../../Composites/FormBuilder/formBuilder";
 
 const Register = () => {
 	const formSchema: FormInterface = {

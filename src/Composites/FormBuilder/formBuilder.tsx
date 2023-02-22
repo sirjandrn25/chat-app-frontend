@@ -5,8 +5,8 @@ import {
 	useImperativeHandle,
 	useMemo,
 } from "react";
-import Button from "../../../Components/Button/button.component";
-import { EmptyFunction } from "../../../Utils/common.utils";
+import Button from "../../Components/Button/button.component";
+import { EmptyFunction } from "../../Utils/common.utils";
 import getSchemaElement from "./Components/getSchemaElement.component";
 import useForm from "./Hooks/useForm.hook";
 import { FormInterface } from "./Types/form.types";

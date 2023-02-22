@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import SlidingPaneWrapper from "../src/Components/SlidingPane/slidingPaneWrapper.component";
 import SlidingPane from "../src/Utils/slidingPane.utils";
 import { QueryClient, QueryClientProvider } from "react-query";
+import DashboardWrapper from "../src/Composites/DashboardWrapper/dashboardWrapper";
 const queryClient = new QueryClient();
 
 const RootContextProvider = dynamic(
@@ -21,15 +22,17 @@ export default function App({ Component, pageProps }: AppProps) {
 		<QueryClientProvider client={queryClient}>
 			<div className="root">
 				<RootContextProvider>
-					<Component {...pageProps} />
+					<DashboardWrapper>
+						<Component {...pageProps} />
 
-					<SlidingPaneWrapper
-						ref={(ref) => {
-							if (ref) {
-								SlidingPane.register(ref);
-							}
-						}}
-					/>
+						<SlidingPaneWrapper
+							ref={(ref) => {
+								if (ref) {
+									SlidingPane.register(ref);
+								}
+							}}
+						/>
+					</DashboardWrapper>
 				</RootContextProvider>
 			</div>
 		</QueryClientProvider>

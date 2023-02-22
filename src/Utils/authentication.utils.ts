@@ -1,0 +1,72 @@
+import { EmptyFunction } from "./common.utils";
+import { GetLocalState, SetLocalState } from "./localState.utils";
+const user_session_key = "user_session";
+
+export const logOutHandler = () => {};
+
+export const calculateRemainingTime = () => {
+	try {
+		const { success, data } = GetLocalState(user_session_key);
+		if (!success || !data) return 0;
+		const current_date = Date.now();
+		const remaining_time = data.expire_time - current_date;
+		return remaining_time;
+	} catch (err) {
+		return 0;
+	}
+};
+
+export const calculateExpireTime = (time: number) => {
+	const date = Date.now();
+	return date + time * 1000;
+};
+export const getSessionToken = () => {
+	try {
+		const { data = {}, success }: any = GetLocalState(user_session_key);
+
+		return data.token;
+	} catch (err) {
+		console.log("sesssion token error ", err);
+		return undefined;
+	}
+};
+export const storeSessionToken = (
+	response: any,
+	callback: any = EmptyFunction
+) => {
+	try {
+		SetLocalState(user_session_key, {
+			...response,
+			expire_time: calculateExpireTime(response.time),
+		});
+		callback();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export class AuthUser {
+	static login(data: any) {
+		let time = 3000;
+		storeSessionToken({ ...data, time });
+	}
+
+	static logout() {
+		// clearLocalState(user_session_key);
+		// localStorage.
+	}
+
+	static getLoggedDetail() {
+		// get user information
+		const store_info = getSessionToken();
+		return store_info?.user;
+	}
+	static isLoggin() {
+		try {
+			const remainingTime = calculateRemainingTime();
+			return remainingTime > 0 ? true : false;
+		} catch (err) {
+			return false;
+		}
+	}
+}

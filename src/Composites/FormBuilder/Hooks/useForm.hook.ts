@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { useMemo, useState } from "react";
-import { EmptyFunction } from "../../../../Utils/common.utils";
+import { EmptyFunction } from "../../../Utils/common.utils";
 import { JoiErrorMessageToJson } from "../Utils/joiValidation.utils";
 
 //single validation object get

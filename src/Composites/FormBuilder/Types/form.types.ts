@@ -1,5 +1,5 @@
-import { InputBaseType } from "./../../../../Components/Input/inputField.component";
-import { SelectBoxType } from "../../../../Components/SelectBox/selecBox.component";
+import { InputBaseType } from "../../../Components/Input/inputField.component";
+import { SelectBoxType } from "../../../Components/SelectBox/selecBox.component";
 
 export interface ValidationInterface {
 	minLength?: number;

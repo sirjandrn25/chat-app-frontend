@@ -1,16 +1,35 @@
 import { useMutation } from "react-query";
-import { FormInterface } from "../../Composites/DashboardWrapper/FormBuilder/Types/form.types";
-import FormBuilder from "../../Composites/DashboardWrapper/FormBuilder/formBuilder";
+import { FormInterface } from "../../Composites/FormBuilder/Types/form.types";
+import FormBuilder from "../../Composites/FormBuilder/formBuilder";
 import axios from "axios";
 import { BASE_URL } from "../../Constants/api.constant";
+import { AuthUser } from "../../Utils/authentication.utils";
+import useNavigation from "../../Hooks/useNavigation.hook";
+import { CHAT_ROUTE } from "../../Constants/route.constant";
+import { useEffectOnce } from "react-use";
 
 const Login = () => {
-	const { isError, isSuccess, isLoading, mutate, data } = useMutation(
+	const { isError, isSuccess, isLoading, mutate, data, error } = useMutation(
 		(loginData) => {
 			return axios.post(`${BASE_URL}/api/auth/login`, loginData);
 		}
 	);
-	console.log(data);
+	const { navigation } = useNavigation();
+	useEffectOnce(() => {
+		if (AuthUser.isLoggin()) {
+			return navigation({
+				pathname: CHAT_ROUTE,
+			});
+		}
+	});
+
+	if (!isLoading && isSuccess) {
+		AuthUser.login(data);
+		navigation({
+			pathname: CHAT_ROUTE,
+		});
+	}
+
 	const formSchema: FormInterface = {
 		fields: [
 			{
