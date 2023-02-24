@@ -1,34 +1,38 @@
+import axios from "axios";
 import { useMutation } from "react-query";
+import { useEffectOnce } from "react-use";
 import { FormInterface } from "../../Composites/FormBuilder/Types/form.types";
 import FormBuilder from "../../Composites/FormBuilder/formBuilder";
-import axios from "axios";
 import { BASE_URL } from "../../Constants/api.constant";
-import { AuthUser } from "../../Utils/authentication.utils";
-import useNavigation from "../../Hooks/useNavigation.hook";
 import { CHAT_ROUTE } from "../../Constants/route.constant";
-import { useEffectOnce } from "react-use";
+import useNavigation from "../../Hooks/useNavigation.hook";
+import { AuthUser } from "../../Utils/authentication.utils";
 
 const Login = () => {
 	const { isError, isSuccess, isLoading, mutate, data, error } = useMutation(
 		(loginData) => {
-			return axios.post(`${BASE_URL}/api/auth/login`, loginData);
+			return axios.post(`${BASE_URL}/auth/login`, loginData);
+		},
+		{
+			onSuccess: (response) => {
+				AuthUser.login(response.data);
+				navigation({
+					pathname: CHAT_ROUTE,
+				});
+			},
+			onError: (error) => {
+				console.log(error);
+			},
 		}
 	);
 	const { navigation } = useNavigation();
 	useEffectOnce(() => {
-		if (AuthUser.isLoggin()) {
+		if (AuthUser.remainingLoginTimeOut() > 0) {
 			return navigation({
 				pathname: CHAT_ROUTE,
 			});
 		}
 	});
-
-	if (!isLoading && isSuccess) {
-		AuthUser.login(data);
-		navigation({
-			pathname: CHAT_ROUTE,
-		});
-	}
 
 	const formSchema: FormInterface = {
 		fields: [
@@ -46,15 +50,16 @@ const Login = () => {
 			},
 		],
 		handleSubmit: (values: any) => mutate(values),
+		submitLabel: "Login",
 	};
 	return (
-		<div className="flex items-center justify-center h-screen w-screen">
+		<div className="flex items-center justify-center w-screen h-screen">
 			<div className="h-auto w-[400px] flex flex-col rounded gap-2 py-4 shadow-lg">
-				<div className="text-center p-4 font-bold text-info  text-xl py-2 border-b">
+				<div className="p-4 py-2 text-xl font-bold text-center border-b text-info">
 					Login Here
 				</div>
 				<FormBuilder {...formSchema} />
-				<div className="border-t flex items-center justify-between p-4 gap-2">
+				<div className="flex items-center justify-between gap-2 p-4 border-t">
 					<div className="text-info ">Create An Account</div>
 					<div className="text-info ">Forgot Password</div>
 				</div>

@@ -1,7 +1,11 @@
 import { BASE_URL } from "./../Constants/api.constant";
 import axios from "axios";
 import { EmptyFunction } from "./common.utils";
-import { GetLocalState, SetLocalState } from "./localState.utils";
+import {
+	GetLocalState,
+	RemoveLocalState,
+	SetLocalState,
+} from "./localState.utils";
 
 const user_session_key = "user_session";
 
@@ -50,11 +54,12 @@ export const storeSessionToken = (
 
 export class AuthUser {
 	static login(data: any) {
-		let time = 3000;
+		let time = 180; // expire time in second
 		storeSessionToken({ ...data, time });
 	}
 
 	static logout() {
+		RemoveLocalState();
 		// clearLocalState(user_session_key);
 		// localStorage.
 	}
@@ -64,12 +69,12 @@ export class AuthUser {
 		const store_info = getSessionToken();
 		return store_info;
 	}
-	static isLoggin() {
+	static remainingLoginTimeOut() {
 		try {
 			const remainingTime = calculateRemainingTime();
-			return remainingTime > 0 ? true : false;
+			return remainingTime;
 		} catch (err) {
-			return false;
+			return 0;
 		}
 	}
 }
@@ -79,6 +84,7 @@ export const fetchUserProfile = async () => {
 	const config = {
 		Authorization: `Bearer ${access_token}`,
 	};
+
 	return axios({
 		url: `${BASE_URL}/users/profile/me`,
 		headers: {

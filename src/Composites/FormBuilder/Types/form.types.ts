@@ -40,4 +40,5 @@ export interface FormInterface {
 	handleSubmit?: any;
 	realTimeValidate?: boolean;
 	children?: (data: childrenType) => void;
+	submitLabel?: string | any;
 }

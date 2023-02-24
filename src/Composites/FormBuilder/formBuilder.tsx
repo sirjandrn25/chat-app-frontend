@@ -20,6 +20,7 @@ const FormBuilder = forwardRef(
 			className = "",
 			handleSubmit = EmptyFunction,
 			realTimeValidate = false,
+			submitLabel,
 			...rest
 		}: FormInterface,
 		ref: any
@@ -94,7 +95,9 @@ const FormBuilder = forwardRef(
 					{rest?.children ? (
 						children({ onSubmit, error, formData })
 					) : (
-						<Button onClick={onSubmit}>Save</Button>
+						<Button onClick={onSubmit}>
+							{submitLabel || "Save"}
+						</Button>
 					)}
 				</div>
 			</form>
