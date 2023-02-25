@@ -24,7 +24,13 @@ export type SelectSchemaType = SchemaBaseType & {
 	type: "select" | "radio";
 } & SelectBoxType;
 
-export type SchemaType = SchemaInputType | SelectSchemaType;
+export type ObjectSchemaType = SchemaBaseType & {
+	type: "object";
+	formSchema: InputOrSelectType;
+} & InputBaseType;
+export type InputOrSelectType = SchemaInputType | SelectSchemaType;
+
+export type SchemaType = InputOrSelectType | ObjectSchemaType;
 
 type childrenType = {
 	onSubmit: () => void;

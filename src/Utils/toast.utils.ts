@@ -29,4 +29,10 @@ class Toast {
 	}
 }
 
+export const serverErrorToast = (error: any[]) => {
+	for (const [key, value] of Object.entries(error)) {
+		Toast.error({ message: `${key} ${value}` });
+	}
+};
+
 export default Toast;

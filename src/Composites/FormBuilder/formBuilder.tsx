@@ -9,7 +9,7 @@ import Button from "../../Components/Button/button.component";
 import { EmptyFunction } from "../../Utils/common.utils";
 import getSchemaElement from "./Components/getSchemaElement.component";
 import useForm from "./Hooks/useForm.hook";
-import { FormInterface } from "./Types/form.types";
+import { FormInterface, SchemaType } from "./Types/form.types";
 
 const FormBuilder = forwardRef(
 	(
@@ -46,15 +46,28 @@ const FormBuilder = forwardRef(
 			[error]
 		);
 
-		const renderSchema = useCallback(() => {
-			return fields.map((field, index: number) => {
+		const renderSchemaElement = useCallback(
+			(
+				field: SchemaType,
+				index: number | string,
+				formDataKey: string = ""
+			): any => {
+				if (field?.type === "object" && field?.formSchema) {
+					return renderSchemaElement(
+						field?.formSchema,
+						index + field.name,
+						formDataKey
+							? `${formDataKey}.${field?.formSchema?.name}`
+							: formDataKey
+					);
+				}
 				const Element = getSchemaElement(field?.type);
 				return (
 					<div key={field.name || index} className={field.name}>
 						<Element
 							{...field}
 							onChange={(value: any) => {
-								handleFormData(field.name, value);
+								handleFormData(formDataKey, value);
 							}}
 							value={formData[field?.name]}
 							error={hasError(field.name)}
@@ -62,8 +75,15 @@ const FormBuilder = forwardRef(
 						/>
 					</div>
 				);
+			},
+			[error, formData, handleFormData, hasError]
+		);
+
+		const renderSchema = useCallback(() => {
+			return fields.map((field, index: number) => {
+				return renderSchemaElement(field, index, field?.name);
 			});
-		}, [fields, formData, hasError, error, handleFormData]);
+		}, [fields, renderSchemaElement]);
 		const layoutClass = useMemo(() => {
 			let className = `gap-4 grid`;
 			switch (layout) {

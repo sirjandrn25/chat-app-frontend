@@ -4,9 +4,10 @@ import { useEffectOnce } from "react-use";
 import { FormInterface } from "../../Composites/FormBuilder/Types/form.types";
 import FormBuilder from "../../Composites/FormBuilder/formBuilder";
 import { BASE_URL } from "../../Constants/api.constant";
-import { CHAT_ROUTE } from "../../Constants/route.constant";
+import { CHAT_ROUTE, REGISTER_ROUTE } from "../../Constants/route.constant";
 import useNavigation from "../../Hooks/useNavigation.hook";
 import { AuthUser } from "../../Utils/authentication.utils";
+import Button from "../../Components/Button/button.component";
 
 const Login = () => {
 	const { isError, isSuccess, isLoading, mutate, data, error } = useMutation(
@@ -60,7 +61,12 @@ const Login = () => {
 				</div>
 				<FormBuilder {...formSchema} />
 				<div className="flex items-center justify-between gap-2 p-4 border-t">
-					<div className="text-info ">Create An Account</div>
+					<Button
+						onClick={() => navigation({ pathname: REGISTER_ROUTE })}
+						className="btn btn-link"
+					>
+						Create An Account
+					</Button>
 					<div className="text-info ">Forgot Password</div>
 				</div>
 			</div>
