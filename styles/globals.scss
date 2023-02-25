@@ -48,3 +48,9 @@
 		}
 	}
 }
+.row-flex {
+	@apply flex flex-row;
+}
+.col-flex {
+	@apply flex flex-col;
+}

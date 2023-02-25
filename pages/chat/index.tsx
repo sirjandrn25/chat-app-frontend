@@ -1,7 +1,3 @@
-import React from "react";
-
-const Chat = () => {
-	return <div>Chat</div>;
-};
+import Chat from "../../src/Modules/Chat/chat.module";
 
 export default Chat;
