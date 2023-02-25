@@ -2,11 +2,12 @@ import type { AppProps } from "next/app";
 import "../styles/globals.scss";
 
 import dynamic from "next/dynamic";
-import DashboardWrapper from "../src/Composites/DashboardWrapper/dashboardWrapper";
-import { ProSidebarProvider } from "react-pro-sidebar";
 
 import SlidingPaneWrapper from "../src/Components/SlidingPane/slidingPaneWrapper.component";
 import SlidingPane from "../src/Utils/slidingPane.utils";
+import { QueryClient, QueryClientProvider } from "react-query";
+import DashboardWrapper from "../src/Composites/DashboardWrapper/dashboardWrapper";
+const queryClient = new QueryClient();
 
 const RootContextProvider = dynamic(
 	() => import("../src/Context/rootContextProvider"),
@@ -18,18 +19,22 @@ const RootContextProvider = dynamic(
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<div className="root">
-			<RootContextProvider>
-				<Component {...pageProps} />
+		<QueryClientProvider client={queryClient}>
+			<div className="root">
+				<RootContextProvider>
+					<DashboardWrapper>
+						<Component {...pageProps} />
 
-				<SlidingPaneWrapper
-					ref={(ref) => {
-						if (ref) {
-							SlidingPane.register(ref);
-						}
-					}}
-				/>
-			</RootContextProvider>
-		</div>
+						<SlidingPaneWrapper
+							ref={(ref) => {
+								if (ref) {
+									SlidingPane.register(ref);
+								}
+							}}
+						/>
+					</DashboardWrapper>
+				</RootContextProvider>
+			</div>
+		</QueryClientProvider>
 	);
 }

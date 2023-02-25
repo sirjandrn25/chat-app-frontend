@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SelectOptionType } from "../../../src/Components/SelectBox/selecBox.component";
-import FormBuilder from "../../../src/Composites/DashboardWrapper/FormBuilder/formBuilder";
-import { FormInterface } from "../../../src/Composites/DashboardWrapper/FormBuilder/Types/form.types";
+import FormBuilder from "../../../src/Composites/FormBuilder/formBuilder";
+import { FormInterface } from "../../../src/Composites/FormBuilder/Types/form.types";
 import SlidingPaneUtil from "../../../src/Utils/slidingPane.utils";
 import Button from "../../../src/Components/Button/button.component";
 

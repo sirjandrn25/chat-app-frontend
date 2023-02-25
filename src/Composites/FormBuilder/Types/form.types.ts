@@ -1,5 +1,5 @@
-import { InputBaseType } from "./../../../../Components/Input/inputField.component";
-import { SelectBoxType } from "../../../../Components/SelectBox/selecBox.component";
+import { InputBaseType } from "../../../Components/Input/inputField.component";
+import { SelectBoxType } from "../../../Components/SelectBox/selecBox.component";
 
 export interface ValidationInterface {
 	minLength?: number;
@@ -24,7 +24,13 @@ export type SelectSchemaType = SchemaBaseType & {
 	type: "select" | "radio";
 } & SelectBoxType;
 
-export type SchemaType = SchemaInputType | SelectSchemaType;
+export type ObjectSchemaType = SchemaBaseType & {
+	type: "object";
+	formSchema: InputOrSelectType;
+} & InputBaseType;
+export type InputOrSelectType = SchemaInputType | SelectSchemaType;
+
+export type SchemaType = InputOrSelectType | ObjectSchemaType;
 
 type childrenType = {
 	onSubmit: () => void;
@@ -40,4 +46,5 @@ export interface FormInterface {
 	handleSubmit?: any;
 	realTimeValidate?: boolean;
 	children?: (data: childrenType) => void;
+	submitLabel?: string | any;
 }

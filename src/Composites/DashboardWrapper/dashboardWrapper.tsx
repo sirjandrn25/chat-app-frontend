@@ -1,23 +1,16 @@
-import { ReactNode } from "react";
-import Header from "./Components/header.component";
-import CustomSidebar from "./Components/sidebar.component";
-import SlidingPane from "../../Components/SlidingPane/slidingPane.component";
+import { useState } from "react";
+import useNavigation from "../../Hooks/useNavigation.hook";
+import useAuth from "./Hooks/useAuth.hook";
 
-type dashboardWrapperProps = {
-	children: ReactNode;
+export const DashboardWrapper = ({ children }: any) => {
+	const { isLoading, loggedUser, isSuccess, isPrivateRoute } = useAuth();
+
+	//   useEffect(() => {
+	//     isLogged && !loading && isRedirect()
+	//   }, [pathname, isLogged, loading])
+
+	if (isLoading && isPrivateRoute) return <div>Loading ....</div>;
+
+	return <div>{children}</div>;
 };
-
-const DashboardWrapper = ({ children }: dashboardWrapperProps) => {
-	return (
-		<div className="h-screen bg-base-200 flex  w-screen">
-			<CustomSidebar />
-
-			<main className="w-full h-full">
-				<Header />
-				{children}
-			</main>
-		</div>
-	);
-};
-
 export default DashboardWrapper;
