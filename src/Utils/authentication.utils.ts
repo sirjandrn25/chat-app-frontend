@@ -13,10 +13,10 @@ export const logOutHandler = () => {};
 
 export const calculateRemainingTime = () => {
   try {
-    const { success, data } = GetLocalState(user_session_key);
+    const { success, data } = (GetLocalState(user_session_key) as any) || {};
     if (!success || !data) return 0;
     const current_date = Date.now();
-    const remaining_time = data.expire_time - current_date;
+    const remaining_time = data?.expire_time - current_date;
     return remaining_time;
   } catch (err) {
     return 0;

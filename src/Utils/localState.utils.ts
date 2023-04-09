@@ -1,13 +1,13 @@
-import { GetItem, SetItem, RemoveItem } from "storage-utility";
-
 export const LOCAL_STATE_PREFIX = "local_state__";
 
 export const GetLocalState = (key: string, nonVolatile = false) => {
   try {
-    const data = GetItem(`${LOCAL_STATE_PREFIX}${key}`, nonVolatile);
+    // const data = GetItem(`${LOCAL_STATE_PREFIX}${key}`, nonVolatile);
     return {
       success: true,
-      data,
+      data: {
+        expire_time: new Date(),
+      },
     };
   } catch (err) {
     return {
@@ -18,7 +18,7 @@ export const GetLocalState = (key: string, nonVolatile = false) => {
 
 export const SetLocalState = (key: string, value: any, nonVolatile = false) => {
   try {
-    SetItem(`${LOCAL_STATE_PREFIX}${key}`, value, nonVolatile);
+    // SetItem(`${LOCAL_STATE_PREFIX}${key}`, value, nonVolatile);
     return {
       success: true,
     };
@@ -35,6 +35,6 @@ export const RemoveLocalState = (
   clearNonVolatileStorage = false
 ) => {
   try {
-    RemoveItem({ clearVolatileStorage, clearNonVolatileStorage });
+    // RemoveItem({ clearVolatileStorage, clearNonVolatileStorage });
   } catch (error) {}
 };
