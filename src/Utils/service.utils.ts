@@ -66,7 +66,8 @@ export const sendRequest = async ({
     Toast.error({ message: error.message });
     if (response?.status === 403) {
       localStorage.clear();
-      window.location.replace("http://localhost:3000/auth");
+
+      window.location.replace(`/auth`);
     }
 
     if (response) {
