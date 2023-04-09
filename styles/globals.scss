@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ps-sidebar-root {
+	@apply shadow-lg;
+	.ps-sidebar-container {
+		@apply bg-base-100;
+
+		.ps-menu-root {
+			ul {
+				li {
+					a {
+						@apply hover:bg-base-200;
+						.ps-menu-icon {
+							@apply text-accent;
+						}
+					}
+				}
+				.ps-active {
+					.ps-active {
+						@apply bg-base-300;
+					}
+				}
+			}
+		}
+	}
+}
+.slide-pane__overlay {
+	z-index: 10000;
+	.slide-pane {
+		.slide-pane__header {
+			.slide-pane__close {
+				@apply m-0 px-5;
+			}
+			.slide-pane__close {
+				@apply text-xl;
+			}
+			.slide-pane__title-wrapper {
+				@apply m-0  pr-5 font-semibold;
+				.slide-pane__title {
+					@apply font-bold;
+				}
+			}
+		}
+		.slide-pane__content {
+			@apply p-0;
+		}
+	}
+}
+.row-flex {
+	@apply flex flex-row;
+}
+.col-flex {
+	@apply flex flex-col;
+}
+
+.input {
+	@apply input-bordered;
+	&:focus {
+		@apply outline-0 shadow-md rounded-md border-2 border-info;
+	}
+	&:active {
+		@apply outline-0;
+	}
+}
