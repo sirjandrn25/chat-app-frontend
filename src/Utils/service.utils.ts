@@ -67,7 +67,7 @@ export const sendRequest = async ({
     if (response?.status === 403) {
       localStorage.clear();
 
-      window.location.replace(`/auth`);
+      // window.location.replace(`/auth`);
     }
 
     if (response) {

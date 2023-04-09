@@ -59,7 +59,6 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     socket = io(DOMAIN_URL);
     socket.emit(SETUP, loggedUser?.id);
     socket.on("connected", (data: any) => {
-      console.log("connected this user ", data);
       // it helps to show online user
     }); //join room with user id
   });

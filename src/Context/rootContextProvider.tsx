@@ -27,10 +27,13 @@ const refreshApi = createRefresh({
           headers: { Authorization: `Bearer ${authToken}` },
         }
       );
+      const { access_token } = response?.data || {};
+
       return {
         isSuccess: true,
-        newAuthToken: response.data.token,
+        newAuthToken: access_token,
         newAuthTokenExpireIn: 3,
+        newRefreshTokenExpiresIn: 60,
       };
     } catch (error) {
       return {
