@@ -18,3 +18,4 @@ export { GrAttachment as SendAttachementIcon } from "react-icons/gr";
 export { FaUsers as UserGroupIcon } from "react-icons/fa";
 export { FaUser as UserChatIcon } from "react-icons/fa";
 export { BiLogOutCircle as LogoutIcon } from "react-icons/bi";
+export { BiChat as ChatIcon } from "react-icons/bi";

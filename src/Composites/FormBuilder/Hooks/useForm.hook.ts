@@ -131,7 +131,9 @@ const useForm = (
     const isValid = verify();
     if (isValid) {
       handleSubmit(sanitizeFormData(formData), next);
+      return;
     }
+    next();
     // next();
   };
 

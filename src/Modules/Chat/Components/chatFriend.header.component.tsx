@@ -1,17 +1,16 @@
+import { BiChat } from "react-icons/bi";
+import Button from "../../../Components/Button/button.component";
 import Icon from "../../../Components/Icon/icon.component";
 import ToolTip from "../../../Components/Tooltip/toolTip.component";
 import useAuth from "../../../Composites/DashboardWrapper/Hooks/useAuth.hook";
-import {
-  LogoutIcon,
-  UserGroupIcon,
-  UserIcon,
-} from "../../../Constants/imageMapping.constants";
+import { UserGroupIcon } from "../../../Constants/imageMapping.constants";
 import useChatContext from "../../../Context/Chat/useChat.context";
 
-import { openUserProfile } from "../../../Utils/function.utils";
 import SlidingPaneUtil from "../../../Utils/slidingPane.utils";
 import HeaderWrapper from "./headerWrapper.component";
 import UserList from "./userList.component";
+import ModalUtil from "../../../Utils/modal.utils";
+import GroupChat from "./groupChat.component";
 
 const ChatFriendHeader = ({ refecthChatList }: any) => {
   const { handleSelectChat } = useChatContext();
@@ -20,6 +19,7 @@ const ChatFriendHeader = ({ refecthChatList }: any) => {
   const openUsersList = () => {
     SlidingPaneUtil.open({
       component: UserList,
+      headTitle: "Search Friends",
       openFrom: "left",
       props: {
         callback: (data?: any) => {
@@ -33,25 +33,43 @@ const ChatFriendHeader = ({ refecthChatList }: any) => {
     });
   };
 
+  const openGroupChat = () => {
+    return ModalUtil.open({
+      component: GroupChat,
+      props: {
+        callback: (data: any) => {
+          // handleSelectChat(data);
+          // refecthChatList();
+        },
+      },
+    });
+  };
+
   const chatHeaderActions = [
+    // {
+    //   name: "User Profile",
+    //   icon: UserIcon,
+    //   isReactIcon: true,
+    //   action: openUserProfile,
+    // },
     {
-      name: "User Profile",
-      icon: UserIcon,
+      name: "New Group",
+      icon: UserGroupIcon,
       isReactIcon: true,
-      action: openUserProfile,
+      action: openGroupChat,
     },
     {
-      name: "Friends",
-      icon: UserGroupIcon,
+      name: "New Chat",
+      icon: BiChat,
       isReactIcon: true,
       action: openUsersList,
     },
-    {
-      name: "Logout",
-      icon: LogoutIcon,
-      isReactIcon: true,
-      action: handleLogout,
-    },
+    // {
+    //   name: "Logout",
+    //   icon: LogoutIcon,
+    //   isReactIcon: true,
+    //   action: handleLogout,
+    // },
   ];
 
   return (
@@ -60,11 +78,18 @@ const ChatFriendHeader = ({ refecthChatList }: any) => {
         {chatHeaderActions.map((header: any, index: number) => {
           return (
             <ToolTip title={header?.name} position="bottom" key={index}>
-              <Icon
-                source={header.icon}
-                isReactIcon={header?.isReactIcon}
-                onClick={header.action}
-              />
+              <Button
+                className="h-10 w-11 bg-base-200 hover:bg-base-300 border-base-200"
+                size="sm"
+                shape="square"
+              >
+                <Icon
+                  source={header.icon}
+                  isReactIcon={header?.isReactIcon}
+                  onClick={header.action}
+                  size={25}
+                />
+              </Button>
             </ToolTip>
           );
         })}
