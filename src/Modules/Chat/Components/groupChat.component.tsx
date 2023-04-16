@@ -31,8 +31,6 @@ const GroupChat = () => {
       .filter((user: any) => user?.id !== currentUser?.id);
   }, [currentUser?.id, users]);
 
-  console.log(sanitizeData());
-
   const handleSubmit = async (values: any, next: any = EmptyFunction) => {
     const users = values?.users?.map((user: any) => {
       return { user_id: user?.value };
@@ -79,13 +77,6 @@ const GroupChat = () => {
     <div className="min-w-[400px] min-h-[300px] col-flex gap-4 relative">
       <div className="text-xl font-bold text-info">New Group Chat</div>
       <FormBuilder {...formSchema} />
-      {/* <InputField label="Group Name" placeholder="Enter group name" />
-      <SelectBox options={[]} label="Search Friend" />
-      <div className="absolute bottom-0 left-0 right-0 items-center justify-end gap-4 row-flex">
-        <Button color="success" className="px-6" size="md">
-          Create Group
-        </Button>
-      </div> */}
     </div>
   );
 };
